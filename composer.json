@@ -1,0 +1,32 @@
+{
+    "name": "phpactor/teleport",
+    "description": "Library to teleport to alternate source dimensions",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Leech",
+            "email": "daniel@dantleech.com"
+        }
+    ],
+    "require": {
+        "webmozart/path-util": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phpactor\\ClassFileConverter\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phpactor\\ClassFileConverter\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
