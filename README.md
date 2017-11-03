@@ -12,7 +12,7 @@ a bechmark, from the benchmark to the source file etc.
 Usage
 -----
 
-Path finder accepts an hash map of destinations and their schemas. The
+Path finder accepts a hash map of destinations and their schemas. The
 "kernel" is a place holder for the common path segment that all destinations
 share:
 
