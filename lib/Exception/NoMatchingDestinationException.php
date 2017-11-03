@@ -4,6 +4,6 @@ namespace Phpactor\ClassFileConverter\Exception;
 
 use Exception;
 
-class NoMatchingTargetException extends Exception
+class NoMatchingDestinationException extends Exception
 {
 }

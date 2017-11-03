@@ -1,6 +1,6 @@
 {
-    "name": "phpactor/teleport",
-    "description": "Library to teleport to alternate source dimensions",
+    "name": "phpactor/path-finder",
+    "description": "Utility for navigating to related source files",
     "license": "MIT",
     "authors": [
         {

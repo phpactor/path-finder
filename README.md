@@ -1,24 +1,30 @@
-Source Teleport
-===============
+Path Finder
+===========
 
-[![Build Status](https://travis-ci.org/phpactor/teleport.svg?branch=master)](https://travis-ci.org/phpactor/teleport)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpactor/teleport/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpactor/teleport/?branch=master)
+[![Build Status](https://travis-ci.org/phpactor/path-finder.svg?branch=master)](https://travis-ci.org/phpactor/path-finder)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpactor/path-finder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpactor/path-finder/?branch=master)
 
-Teleport between source code dimensions. For example, provide the file path
-for the unit test for file `/src/Foobar/Barfoo.php` and from the unit test
-back, or to new, unexplored dimensions.
+Library to infer paths from a given path where paths share the same "kernel"
+(common section of the path).
+
+For example, infer unit test path from the source file, from a unit test to
+a bechmark, from the benchmark to the source file etc.
 
 Usage
 -----
 
+Path finder accepts an hash map of destinations and their schemas. The
+"kernel" is a place holder for the common path segment that all destinations
+share:
+
 ```php
-$teleporter = Teleporter::fromTargets([
+$pathFinderer = PathFinderer::fromDestinations([
     'source' => 'lib/<kernel>.php',
     'unit_test' => 'tests/Unit/<kernel>Test.php',
     'benchmark' => 'benchmarks/<kernel>Bench.php',
 ]);
 
-$targets = $teleporter->teleporter->targetsFor('lib/Acme/Post.php');
+$targets = $pathFinderer->pathFinderer->targetsFor('lib/Acme/Post.php');
 
 var_dump($targets);
 // [
