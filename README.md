@@ -2,7 +2,6 @@ Path Finder
 ===========
 
 [![Build Status](https://travis-ci.org/phpactor/path-finder.svg?branch=master)](https://travis-ci.org/phpactor/path-finder)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpactor/path-finder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpactor/path-finder/?branch=master)
 
 Library to infer paths from a given path where paths share the same "kernel"
 (common section of the path).
