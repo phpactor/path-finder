@@ -3,8 +3,9 @@
 namespace Phpactor\ClassFileConverter;
 
 use Phpactor\ClassFileConverter\Exception\NoMatchingTargetException;
+use Phpactor\ClassFileConverter\PathFinder;
 
-class Teleport
+class PathFinder
 {
     const KERNEL = '<kernel>';
 
@@ -18,7 +19,7 @@ class Teleport
         $this->targets = $targets;
     }
 
-    public static function fromTargets(array $targets): Teleport
+    public static function fromTargets(array $targets): PathFinder
     {
         return new self($targets);
     }
