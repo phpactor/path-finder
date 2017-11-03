@@ -15,4 +15,6 @@ before_script:
   - composer install
 
 script: 
-  - phpunit
+  - ./vendor/bin/phpstan --level=7 lib/
+  - ./vendor/bin/phpstan --level=7 tests/
+  - ./vendor/bin/phpunit

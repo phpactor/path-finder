@@ -4,7 +4,7 @@ namespace Phpactor\ClassFileConverter\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Phpactor\ClassFileConverter\PathFinder;
-use Phpactor\ClassFileConverter\Exception\NoMatchingDestinationException;
+use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
 use RuntimeException;
 
 class PathFinderTest extends TestCase
@@ -98,7 +98,7 @@ class PathFinderTest extends TestCase
 
     public function testNoMatchingTarget()
     {
-        $this->expectException(NoMatchingDestinationException::class);
+        $this->expectException(NoMatchingSourceException::class);
         $this->expectExceptionMessage('Could not find a matching pattern for path "/lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
 
         $teleport = PathFinder::fromDestinations([

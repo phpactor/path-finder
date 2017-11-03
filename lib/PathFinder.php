@@ -2,7 +2,7 @@
 
 namespace Phpactor\ClassFileConverter;
 
-use Phpactor\ClassFileConverter\Exception\NoMatchingDestinationException;
+use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
 use Phpactor\ClassFileConverter\PathFinder;
 use Webmozart\PathUtil\Path;
 use RuntimeException;
@@ -33,6 +33,8 @@ class PathFinder
     /**
      * Return a hash map of destination names to paths representing
      * paths which relate to the given file path.
+     *
+     * @throws NoMatchingSourceException
      */
     public function destinationsFor(string $filePath): array
     {
@@ -44,15 +46,15 @@ class PathFinder
 
     private function matchingSource($filePath)
     {
-        foreach ($this->targets as $targetName => $pattern) {
+        foreach ($this->destinations as $targetName => $pattern) {
             if ($this->matches($filePath, $pattern)) {
                 return $targetName;
             }
         }
 
-        throw new NoMatchingDestinationException(sprintf(
+        throw new NoMatchingSourceException(sprintf(
             'Could not find a matching pattern for path "%s", known patterns: "%s"',
-            $filePath, implode('", "', $this->targets)
+            $filePath, implode('", "', $this->destinations)
         ));
     }
 
@@ -67,12 +69,12 @@ class PathFinder
     {
         $resolved = [];
 
-        foreach ($this->targets as $targetName => $targetPattern) {
+        foreach ($this->destinations as $targetName => $targetPattern) {
             if ($target === $targetName) {
                 continue;
             }
 
-            $sourcePattern = $this->pattern($this->targets[$target]);
+            $sourcePattern = $this->pattern($this->destinations[$target]);
             $kernel = $this->matchPattern($filePath, $sourcePattern);
 
             $resolved[$targetName] = str_replace(self::KERNEL, $kernel, $targetPattern);
@@ -113,6 +115,6 @@ class PathFinder
 
     private function add(string $destinationName, string $pattern)
     {
-        $this->targets[$destinationName] = $pattern;
+        $this->destinations[$destinationName] = $pattern;
     }
 }
