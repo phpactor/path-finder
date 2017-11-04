@@ -17,13 +17,13 @@ Path finder accepts a hash map of destinations and their schemas. The
 share:
 
 ```php
-$pathFinderer = PathFinderer::fromDestinations([
+$pathFinder = PathFinder::fromDestinations([
     'source' => 'lib/<kernel>.php',
     'unit_test' => 'tests/Unit/<kernel>Test.php',
     'benchmark' => 'benchmarks/<kernel>Bench.php',
 ]);
 
-$targets = $pathFinderer->pathFinderer->targetsFor('lib/Acme/Post.php');
+$targets = $pathFinder->targetsFor('lib/Acme/Post.php');
 
 var_dump($targets);
 // [
