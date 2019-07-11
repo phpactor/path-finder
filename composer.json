@@ -12,8 +12,9 @@
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.1",
-        "phpstan/phpstan": "^0.8.5"
+        "phpunit/phpunit": "~7.0",
+        "phpstan/phpstan": "~0.11.0",
+        "friendsofphp/php-cs-fixer": "~2.15.0"
     },
     "autoload": {
         "psr-4": {

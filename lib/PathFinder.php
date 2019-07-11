@@ -3,7 +3,6 @@
 namespace Phpactor\ClassFileConverter;
 
 use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
-use Phpactor\ClassFileConverter\PathFinder;
 use Webmozart\PathUtil\Path;
 use RuntimeException;
 
@@ -54,7 +53,8 @@ class PathFinder
 
         throw new NoMatchingSourceException(sprintf(
             'Could not find a matching pattern for path "%s", known patterns: "%s"',
-            $filePath, implode('", "', $this->destinations)
+            $filePath,
+            implode('", "', $this->destinations)
         ));
     }
 
