@@ -22,76 +22,80 @@ class PathFinderTest extends TestCase
 
     public function provideTeleport()
     {
-        return [
-            'no available targets' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                ],
-                'lib/MyFile.php',
-                [
-                ],
+        yield 'no available targets' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+        ],
+        'lib/MyFile.php',
+        [
+        ],
+        ];
+
+        yield 'one available target' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
             ],
-            'one available target' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/<kernel>Test.php',
-                ],
-                'lib/MyFile.php',
-                [
-                    'target2' => 'tests/MyFileTest.php',
-                ],
+            'lib/MyFile.php',
+            [
+                'target2' => 'tests/MyFileTest.php',
             ],
-            'multiple matching targets' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/<kernel>Test.php',
-                    'target3' => 'benchmarks/<kernel>Bench.php',
-                ],
-                'lib/MyFile.php',
-                [
-                    'target2' => 'tests/MyFileTest.php',
-                    'target3' => 'benchmarks/MyFileBench.php',
-                ],
+        ];
+
+        yield 'multiple matching targets' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+                'target3' => 'benchmarks/<kernel>Bench.php',
             ],
-            'composite path' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/<kernel>Test.php',
-                ],
-                'lib/Foobar/Barfoo/MyFile.php',
-                [
-                    'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
-                ],
+            'lib/MyFile.php',
+            [
+                'target2' => 'tests/MyFileTest.php',
+                'target3' => 'benchmarks/MyFileBench.php',
             ],
-            'absolute path' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/<kernel>Test.php',
-                ],
-                '/home/daniel/lib/Foobar/Barfoo/MyFile.php',
-                [
-                    'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
-                ],
+        ];
+
+        yield 'composite path' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
             ],
-            'relative path' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/<kernel>Test.php',
-                ],
-                '/home/daniel/lib/Foobar/../Foobar/Barfoo/MyFile.php',
-                [
-                    'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
-                ],
+            'lib/Foobar/Barfoo/MyFile.php',
+            [
+                'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
             ],
-            'from unit test' => [
-                [
-                    'target1' => 'lib/<kernel>.php',
-                    'target2' => 'tests/Unit/<kernel>Test.php',
-                ],
-                'tests/Unit/MyFileTest.php',
-                [
-                    'target1' => 'lib/MyFile.php',
-                ],
+        ];
+
+        yield 'absolute path' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+            ],
+            '/home/daniel/lib/Foobar/Barfoo/MyFile.php',
+            [
+                'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
+            ],
+        ];
+
+        yield 'relative path' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+            ],
+            '/home/daniel/lib/Foobar/../Foobar/Barfoo/MyFile.php',
+            [
+                'target2' => 'tests/Foobar/Barfoo/MyFileTest.php',
+            ],
+        ];
+
+        yield 'from unit test' => [
+            [
+                'target1' => 'lib/<kernel>.php',
+                'target2' => 'tests/Unit/<kernel>Test.php',
+            ],
+            'tests/Unit/MyFileTest.php',
+            [
+                'target1' => 'lib/MyFile.php',
             ],
         ];
     }
