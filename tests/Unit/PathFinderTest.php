@@ -142,9 +142,31 @@ class PathFinderTest extends TestCase
                 'target2' => 'tests/Model/Abstractor/MyFile/Unit/ModuleOneTest.php',
             ],
         ];
+
+        yield 'multiple with missing placeholders' => [
+            [
+                'target1' => 'lib/<module>/<kernel>.php',
+                'target2' => 'tests/Unit/<kernel>Test.php',
+            ],
+            'lib/ModuleOne/Model/Abstractor/MyFile.php',
+            [
+                'target2' => 'tests/Unit/Model/Abstractor/MyFileTest.php',
+            ],
+        ];
+
+        yield 'multiple with non-correlating placeholders' => [
+            [
+                'target1' => 'lib/<foo>/<bar>.php',
+                'target2' => 'tests/Unit/<kernel>Test.php',
+            ],
+            'lib/ModuleOne/Model/Abstractor/MyFile.php',
+            [
+                'target2' => 'tests/Unit/Test.php',
+            ],
+        ];
     }
 
-    public function testNoMatchingTarget()
+    public function testNoMatchingTarget(): void
     {
         $this->expectException(NoMatchingSourceException::class);
         $this->expectExceptionMessage('Could not find matching source pattern for "/lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
@@ -156,7 +178,7 @@ class PathFinderTest extends TestCase
         $teleport->destinationsFor('/lib/Foo.php');
     }
 
-    public function testDestinationWithNoKernel()
+    public function testDestinationWithNoKernel(): void
     {
         $this->expectException(NoPlaceHoldersException::class);
         $this->expectExceptionMessage('File pattern "/soos/boos.php" does not contain any <placeholders>');

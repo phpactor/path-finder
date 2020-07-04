@@ -85,13 +85,28 @@ class Pattern
      */
     public function replaceTokens(array $tokens): string
     {
-        return strtr($this->pattern, (array)array_combine(array_map(function (string $key) {
-            return '<' . $key . '>';
-        }, array_keys($tokens)), array_values($tokens)));
+        return $this->cleanRemainingTokens($this->replaceTokensWithValues($tokens));
     }
 
     public function toString(): string
     {
         return $this->pattern;
+    }
+
+    /**
+     * @param array<string,string> $tokens
+     */
+    private function replaceTokensWithValues(array $tokens): string
+    {
+        return strtr($this->pattern, (array)array_combine(array_map(function (string $key) {
+            return '<' . $key . '>';
+        }, array_keys($tokens)), array_values($tokens)));
+    }
+
+    private function cleanRemainingTokens(string $filePath): string
+    {
+        return strtr($filePath, (array)array_combine(array_map(function (string $tokenName) {
+            return '<' . $tokenName . '>';
+        }, $this->tokenNames), array_fill(0, count($this->tokenNames), '')));
     }
 }
