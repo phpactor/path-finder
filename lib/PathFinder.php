@@ -12,16 +12,22 @@ class PathFinder
      */
     private $destinations = [];
 
+    /**
+     * @param array<string, Pattern> $destinations
+     */
     private function __construct(array $destinations)
     {
-        foreach ($destinations as $destinationName => $pattern) {
-            $this->add($destinationName, $pattern);
-        }
+        $this->destinations = $destinations;
     }
 
+    /**
+     * @param array<string, string> $destinations
+     */
     public static function fromDestinations(array $destinations): PathFinder
     {
-        return new self($destinations);
+        return new self(array_map(function (string $pattern) {
+            return Pattern::fromPattern($pattern);
+        }, $destinations));
     }
 
     /**
@@ -29,6 +35,7 @@ class PathFinder
      * paths which relate to the given file path.
      *
      * @throws NoMatchingSourceException
+     * @return array<string,string>
      */
     public function destinationsFor(string $filePath): array
     {
@@ -46,11 +53,6 @@ class PathFinder
         }
 
         return $destinations;
-    }
-
-    private function add($destinationName, $pattern): void
-    {
-        $this->destinations[$destinationName] = Pattern::fromPattern($pattern);
     }
 
     private function findSourcePattern(string $filePath): Pattern

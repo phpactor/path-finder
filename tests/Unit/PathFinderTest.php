@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Phpactor\ClassFileConverter\Exception\NoPlaceHoldersException;
 use Phpactor\ClassFileConverter\PathFinder;
 use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
-use RuntimeException;
 
 class PathFinderTest extends TestCase
 {

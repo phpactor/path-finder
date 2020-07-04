@@ -16,7 +16,7 @@ class Pattern
     private $regex;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $tokenNames;
 
@@ -25,6 +25,9 @@ class Pattern
      */
     private $pattern;
 
+    /**
+     * @param array<string> $tokenNames
+     */
     public function __construct(string $regex, string $pattern, array $tokenNames)
     {
         $this->regex = $regex;
@@ -59,16 +62,30 @@ class Pattern
         return (bool)preg_match($this->regex, Path::canonicalize($filePath));
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function tokens(string $filePath): array
     {
         $filePath = Path::canonicalize($filePath);
-        preg_match($this->regex, $filePath, $matches);
-        return array_intersect_key($matches, array_combine($this->tokenNames, $this->tokenNames));
+
+        if (!preg_match($this->regex, $filePath, $matches)) {
+            throw new RuntimeException(sprintf(
+                'Error occurred performing regex on filepath "%s" with regex "%s"',
+                $filePath,
+                $this->regex
+            ));
+        }
+
+        return array_intersect_key($matches, (array)array_combine($this->tokenNames, $this->tokenNames));
     }
 
+    /**
+     * @param array<string,string> $tokens
+     */
     public function replaceTokens(array $tokens): string
     {
-        return strtr($this->pattern, array_combine(array_map(function (string $key) {
+        return strtr($this->pattern, (array)array_combine(array_map(function (string $key) {
             return '<' . $key . '>';
         }, array_keys($tokens)), array_values($tokens)));
     }
