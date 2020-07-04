@@ -42,7 +42,7 @@ $targets = $pathFinder->targetsFor('lib/Acme/Post.php');
 ```php
 $pathFinder = PathFinder::fromDestinations([
     'source' => 'lib/<module>/<kernel>.php',
-    'unit_test' => 'tests/<module>Unit/<kernel>Test.php',
+    'unit_test' => 'tests/<module>/Unit/<kernel>Test.php',
     'benchmark' => 'benchmarks/<module>/<kernel>Bench.php',
 ]);
 
