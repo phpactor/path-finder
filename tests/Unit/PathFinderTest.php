@@ -3,6 +3,7 @@
 namespace Phpactor\ClassFileConverter\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Phpactor\ClassFileConverter\Exception\NoPlaceHoldersException;
 use Phpactor\ClassFileConverter\PathFinder;
 use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
 use RuntimeException;
@@ -25,8 +26,8 @@ class PathFinderTest extends TestCase
         yield 'no available targets' => [
             [
                 'target1' => 'lib/<kernel>.php',
-        ],
-        'lib/MyFile.php',
+            ],
+            'lib/MyFile.php',
         [
         ],
         ];
@@ -98,12 +99,45 @@ class PathFinderTest extends TestCase
                 'target1' => 'lib/MyFile.php',
             ],
         ];
+
+        yield 'multiple segments 1' => [
+            [
+                'target1' => 'lib/<module>/<kernel>.php',
+                'target2' => 'tests/<module>/Unit/<kernel>Test.php',
+            ],
+            'tests/ModuleOne/Unit/MyFileTest.php',
+            [
+                'target1' => 'lib/ModuleOne/MyFile.php',
+            ],
+        ];
+
+        yield 'multiple segments 2' => [
+            [
+                'target1' => 'lib/<module>/<kernel>.php',
+                'target2' => 'tests/<module>/Unit/<kernel>Test.php',
+            ],
+            'lib/ModuleOne/MyFile.php',
+            [
+                'target2' => 'tests/ModuleOne/Unit/MyFileTest.php',
+            ],
+        ];
+
+        yield 'multiple segments with multiple segments ' => [
+            [
+                'target1' => 'lib/<module?>/<kernel>.php',
+                'target2' => 'tests/<module?>/Unit/<kernel>Test.php',
+            ],
+            'lib/ModuleOne/Model/Abstractor/MyFile.php',
+            [
+                'target2' => 'tests/ModuleOne/Unit/Model/Abstractor/MyFileTest.php',
+            ],
+        ];
     }
 
     public function testNoMatchingTarget()
     {
         $this->expectException(NoMatchingSourceException::class);
-        $this->expectExceptionMessage('Could not find a matching pattern for path "/lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
+        $this->expectExceptionMessage('Could not find matching source pattern for "/lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
 
         $teleport = PathFinder::fromDestinations([
             'soos' => '/soos/<kernel>/boos.php',
@@ -114,8 +148,8 @@ class PathFinderTest extends TestCase
 
     public function testDestinationWithNoKernel()
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Destination "/soos/boos.php" contains no <kernel> placeholder');
+        $this->expectException(NoPlaceHoldersException::class);
+        $this->expectExceptionMessage('File pattern "/soos/boos.php" does not contain any <placeholders>');
 
         $teleport = PathFinder::fromDestinations([
             'soos' => '/soos/boos.php',
