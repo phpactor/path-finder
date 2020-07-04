@@ -50,6 +50,6 @@ $targets = $pathFinder->targetsFor('lib/MyModule/Acme/Post.php');
 
 // [
 //    'unit_test' => 'tests/MyModule/Unit/Acme/PostTest.php',
-//    'benchmark' => 'benchmarks/MyMOdule/Acme/PostBench.php',
+//    'benchmark' => 'benchmarks/MyModule/Acme/PostBench.php',
 // ]
 ```
