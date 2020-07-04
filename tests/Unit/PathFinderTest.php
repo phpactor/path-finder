@@ -122,14 +122,25 @@ class PathFinderTest extends TestCase
             ],
         ];
 
-        yield 'multiple segments with multiple segments ' => [
+        yield 'multiple segments with containing multiple elements' => [
             [
-                'target1' => 'lib/<module?>/<kernel>.php',
-                'target2' => 'tests/<module?>/Unit/<kernel>Test.php',
+                'target1' => 'lib/<module>/<kernel>.php',
+                'target2' => 'tests/<module>/Unit/<kernel>Test.php',
             ],
             'lib/ModuleOne/Model/Abstractor/MyFile.php',
             [
                 'target2' => 'tests/ModuleOne/Unit/Model/Abstractor/MyFileTest.php',
+            ],
+        ];
+
+        yield 'mixed multiple segments' => [
+            [
+                'target1' => 'lib/<module>/<kernel>.php',
+                'target2' => 'tests/<kernel>/Unit/<module>Test.php',
+            ],
+            'lib/ModuleOne/Model/Abstractor/MyFile.php',
+            [
+                'target2' => 'tests/Model/Abstractor/MyFile/Unit/ModuleOneTest.php',
             ],
         ];
     }

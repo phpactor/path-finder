@@ -34,12 +34,15 @@ class Pattern
 
     public static function fromPattern(string $pattern): self
     {
-        $tokenNames = [];
+        preg_match_all(self::TOKEN_REGEX, $pattern, $matches);
 
-        $regex = preg_replace_callback(self::TOKEN_REGEX, function (array $token) use (&$tokenNames) {
-            $tokenNames[] = $token[1];
-            return sprintf('(?<%s>.+)', $token[1]);
-        },$pattern);
+        [$tokens, $tokenNames] = $matches;
+
+        $regex = $pattern;
+        foreach (array_values($matches[0]) as $index => $token) {
+            $greedy = $index + 1 !== count($tokenNames);
+            $regex = strtr($regex, [$token => sprintf('(?%s%s+)', $token, $greedy ? '[^/]' : '.')]);
+        }
 
         if (empty($tokenNames)) {
             throw new NoPlaceHoldersException(sprintf(
