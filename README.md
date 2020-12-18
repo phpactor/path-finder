@@ -1,7 +1,7 @@
 Path Finder
 ===========
 
-[![Build Status](https://travis-ci.org/phpactor/path-finder.svg?branch=master)](https://travis-ci.org/phpactor/path-finder)
+![CI](https://github.com/phpactor/path-finder/workflows/CI/badge.svg)
 
 Library to infer paths from a given path where paths share path segments.
 
