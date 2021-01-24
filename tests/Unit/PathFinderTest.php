@@ -12,7 +12,7 @@ class PathFinderTest extends TestCase
     /**
      * @dataProvider provideTeleport
      */
-    public function testTeleport(array $targets, $path, array $expectedTargets)
+    public function testTeleport(array $targets, $path, array $expectedTargets): void
     {
         $teleport = PathFinder::fromDestinations($targets);
         $targets = $teleport->destinationsFor($path);
