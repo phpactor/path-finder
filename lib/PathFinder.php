@@ -8,7 +8,7 @@ use Webmozart\PathUtil\Path;
 class PathFinder
 {
     /**
-     * @var sring
+     * @var string
      */
     private $projectRoot;
 
