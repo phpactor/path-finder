@@ -175,6 +175,17 @@ class PathFinderTest extends TestCase
                 'target2' => 'tests/MyFileTest.php',
             ],
         ];
+
+        yield 'jump back to one available target with directories with identical name' => [
+            [
+                'target1' => 'src/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+            ],
+            '/home/user/src/github.com/organisation/project/tests/MyFileTest.php',
+            [
+                'target1' => 'src/MyFile.php',
+            ],
+        ];
     }
 
     public function testNoMatchingTarget(): void
