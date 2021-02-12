@@ -44,7 +44,7 @@ class Pattern
         $regex = $pattern;
         foreach (array_values($matches[0]) as $index => $token) {
             $greedy = $index + 1 !== count($tokenNames);
-            $regex = '.*' . strtr($regex, [$token => sprintf('(?%s%s+)', $token, $greedy ? '[^/]' : '.')]);
+            $regex = strtr($regex, [$token => sprintf('(?%s%s+)', $token, $greedy ? '[^/]' : '.')]);
         }
 
         if (empty($tokenNames)) {

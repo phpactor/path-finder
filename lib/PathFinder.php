@@ -8,24 +8,32 @@ use Webmozart\PathUtil\Path;
 class PathFinder
 {
     /**
+     * @var sring
+     */
+    private $projectRoot;
+
+    /**
      * @var array<string,Pattern>
      */
     private $destinations = [];
 
     /**
+     * @param string $projectRoot
      * @param array<string, Pattern> $destinations
      */
-    private function __construct(array $destinations)
+    private function __construct($projectRoot, array $destinations)
     {
+        $this->projectRoot = $projectRoot;
         $this->destinations = $destinations;
     }
 
     /**
+     * @param string $projectRoot
      * @param array<string, string> $destinations
      */
-    public static function fromDestinations(array $destinations): PathFinder
+    public static function fromDestinations($projectRoot, array $destinations): PathFinder
     {
-        return new self(array_map(function (string $pattern) {
+        return new self($projectRoot, array_map(function (string $pattern) {
             return Pattern::fromPattern($pattern);
         }, $destinations));
     }
@@ -39,6 +47,12 @@ class PathFinder
      */
     public function destinationsFor(string $filePath): array
     {
+        if (strpos($filePath, $this->projectRoot) === 0) {
+            $length = strlen($this->projectRoot);
+            $removeSlash = substr($this->projectRoot, -1) !== '/' ? 1 : 0;
+            $filePath = substr($filePath, $length + $removeSlash); // +1 to avoid leading slash
+        }
+
         $destinations = [];
         $sourcePattern = $this->findSourcePattern($filePath);
 
