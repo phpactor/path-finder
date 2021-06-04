@@ -46,11 +46,7 @@ class PathFinder
      */
     public function destinationsFor(string $filePath): array
     {
-        if (strpos($filePath, $this->projectRoot) === 0) {
-            $length = strlen($this->projectRoot);
-            $removeSlash = substr($this->projectRoot, -1) !== '/' ? 1 : 0;
-            $filePath = substr($filePath, $length + $removeSlash); // +1 to avoid leading slash
-        }
+        $filePath = Path::makeRelative($filePath, $this->projectRoot);
 
         $destinations = [];
         $sourcePattern = $this->findSourcePattern($filePath);
