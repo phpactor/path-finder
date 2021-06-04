@@ -18,10 +18,9 @@ class PathFinder
     private $destinations = [];
 
     /**
-     * @param string $projectRoot
      * @param array<string, Pattern> $destinations
      */
-    private function __construct($projectRoot, array $destinations)
+    private function __construct(string $projectRoot, array $destinations)
     {
         $this->projectRoot = $projectRoot;
         $this->destinations = $destinations;
