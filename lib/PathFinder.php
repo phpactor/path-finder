@@ -10,7 +10,7 @@ class PathFinder
     /**
      * @var string
      */
-    private $projectRoot;
+    private $basePath;
 
     /**
      * @var array<string,Pattern>
@@ -20,19 +20,28 @@ class PathFinder
     /**
      * @param array<string, Pattern> $destinations
      */
-    private function __construct(string $projectRoot, array $destinations)
+    private function __construct(string $basePath, array $destinations)
     {
-        $this->projectRoot = $projectRoot;
+        $this->basePath = $basePath;
         $this->destinations = $destinations;
     }
 
     /**
-     * @param string $projectRoot
      * @param array<string, string> $destinations
      */
-    public static function fromDestinations($projectRoot, array $destinations): PathFinder
+    public static function fromDestinations(array $destinations): PathFinder
     {
-        return new self($projectRoot, array_map(function (string $pattern) {
+        return new self('', array_map(function (string $pattern) {
+            return Pattern::fromPattern($pattern);
+        }, $destinations));
+    }
+
+    /**
+     * @param array<string, string> $destinations
+     */
+    public static function fromAbsoluteDestinations(string $basePath, array $destinations): PathFinder
+    {
+        return new self($basePath, array_map(function (string $pattern) {
             return Pattern::fromPattern($pattern);
         }, $destinations));
     }
@@ -46,7 +55,9 @@ class PathFinder
      */
     public function destinationsFor(string $filePath): array
     {
-        $filePath = Path::makeRelative($filePath, $this->projectRoot);
+        if ($this->basePath !== '') {
+            $filePath = Path::makeRelative($filePath, $this->basePath);
+        }
 
         $destinations = [];
         $sourcePattern = $this->findSourcePattern($filePath);
