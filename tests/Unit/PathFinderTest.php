@@ -16,7 +16,7 @@ class PathFinderTest extends TestCase
      */
     public function testTeleport(array $targets, $path, array $expectedTargets): void
     {
-        $teleport = PathFinder::fromDestinations(self::PROJECT_ROOT, $targets);
+        $teleport = PathFinder::fromAbsoluteDestinations(self::PROJECT_ROOT, $targets);
         $targets = $teleport->destinationsFor($path);
 
         $this->assertEquals($expectedTargets, $targets);
@@ -193,9 +193,9 @@ class PathFinderTest extends TestCase
     public function testNoMatchingTarget(): void
     {
         $this->expectException(NoMatchingSourceException::class);
-        $this->expectExceptionMessage('Could not find matching source pattern for "lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
+        $this->expectExceptionMessage('Could not find matching source pattern for "/lib/Foo.php", known patterns: "/soos/<kernel>/boos.php"');
 
-        $teleport = PathFinder::fromDestinations('/', [
+        $teleport = PathFinder::fromDestinations([
             'soos' => '/soos/<kernel>/boos.php',
         ]);
 
@@ -207,7 +207,7 @@ class PathFinderTest extends TestCase
         $this->expectException(NoPlaceHoldersException::class);
         $this->expectExceptionMessage('File pattern "/soos/boos.php" does not contain any <placeholders>');
 
-        $teleport = PathFinder::fromDestinations('/', [
+        $teleport = PathFinder::fromDestinations([
             'soos' => '/soos/boos.php',
         ]);
 
