@@ -9,12 +9,14 @@ use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
 
 class PathFinderTest extends TestCase
 {
+    const PROJECT_ROOT = '/home/user/src/github.com/organisation/project';
+
     /**
      * @dataProvider provideTeleport
      */
     public function testTeleport(array $targets, $path, array $expectedTargets): void
     {
-        $teleport = PathFinder::fromDestinations($targets);
+        $teleport = PathFinder::fromAbsoluteDestinations(self::PROJECT_ROOT, $targets);
         $targets = $teleport->destinationsFor($path);
 
         $this->assertEquals($expectedTargets, $targets);
@@ -162,6 +164,28 @@ class PathFinderTest extends TestCase
             'lib/ModuleOne/Model/Abstractor/MyFile.php',
             [
                 'target2' => 'tests/Unit/Test.php',
+            ],
+        ];
+
+        yield 'one available target with directories with identical name' => [
+            [
+                'target1' => 'src/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+            ],
+            self::PROJECT_ROOT . '/src/MyFile.php',
+            [
+                'target2' => 'tests/MyFileTest.php',
+            ],
+        ];
+
+        yield 'jump back to one available target with directories with identical name' => [
+            [
+                'target1' => 'src/<kernel>.php',
+                'target2' => 'tests/<kernel>Test.php',
+            ],
+            self::PROJECT_ROOT . '/tests/MyFileTest.php',
+            [
+                'target1' => 'src/MyFile.php',
             ],
         ];
     }
