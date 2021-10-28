@@ -8,6 +8,11 @@ use Webmozart\PathUtil\Path;
 class PathFinder
 {
     /**
+     * @var string
+     */
+    private $basePath;
+
+    /**
      * @var array<string,Pattern>
      */
     private $destinations = [];
@@ -15,8 +20,9 @@ class PathFinder
     /**
      * @param array<string, Pattern> $destinations
      */
-    private function __construct(array $destinations)
+    private function __construct(string $basePath, array $destinations)
     {
+        $this->basePath = $basePath;
         $this->destinations = $destinations;
     }
 
@@ -25,7 +31,17 @@ class PathFinder
      */
     public static function fromDestinations(array $destinations): PathFinder
     {
-        return new self(array_map(function (string $pattern) {
+        return new self('', array_map(function (string $pattern) {
+            return Pattern::fromPattern($pattern);
+        }, $destinations));
+    }
+
+    /**
+     * @param array<string, string> $destinations
+     */
+    public static function fromAbsoluteDestinations(string $basePath, array $destinations): PathFinder
+    {
+        return new self($basePath, array_map(function (string $pattern) {
             return Pattern::fromPattern($pattern);
         }, $destinations));
     }
@@ -39,6 +55,10 @@ class PathFinder
      */
     public function destinationsFor(string $filePath): array
     {
+        if ($this->basePath !== '') {
+            $filePath = Path::makeRelative($filePath, $this->basePath);
+        }
+
         $destinations = [];
         $sourcePattern = $this->findSourcePattern($filePath);
 
