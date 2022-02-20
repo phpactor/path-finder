@@ -1,8 +1,8 @@
 <?php
 
-namespace Phpactor\ClassFileConverter;
+namespace Phpactor\PathFinder;
 
-use Phpactor\ClassFileConverter\Exception\NoPlaceHoldersException;
+use Phpactor\PathFinder\Exception\NoPlaceHoldersException;
 use RuntimeException;
 use Webmozart\PathUtil\Path;
 

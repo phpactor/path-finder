@@ -1,8 +1,8 @@
 <?php
 
-namespace Phpactor\ClassFileConverter;
+namespace Phpactor\PathFinder;
 
-use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
+use Phpactor\PathFinder\Exception\NoMatchingSourceException;
 use Webmozart\PathUtil\Path;
 
 class PathFinder

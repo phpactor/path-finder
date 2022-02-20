@@ -1,6 +1,6 @@
 <?php
 
-namespace Phpactor\ClassFileConverter\Exception;
+namespace Phpactor\PathFinder\Exception;
 
 use Exception;
 

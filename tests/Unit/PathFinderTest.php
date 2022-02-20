@@ -1,11 +1,11 @@
 <?php
 
-namespace Phpactor\ClassFileConverter\Tests\Unit;
+namespace Phpactor\PathFinder\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Phpactor\ClassFileConverter\Exception\NoPlaceHoldersException;
-use Phpactor\ClassFileConverter\PathFinder;
-use Phpactor\ClassFileConverter\Exception\NoMatchingSourceException;
+use Phpactor\PathFinder\Exception\NoPlaceHoldersException;
+use Phpactor\PathFinder\PathFinder;
+use Phpactor\PathFinder\Exception\NoMatchingSourceException;
 
 class PathFinderTest extends TestCase
 {

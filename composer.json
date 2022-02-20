@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Phpactor\\ClassFileConverter\\": "lib/"
+            "Phpactor\\PathFinder\\": "lib/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Phpactor\\ClassFileConverter\\Tests\\": "tests/"
+            "Phpactor\\PathFinder\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
